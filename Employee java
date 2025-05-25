@@ -1,0 +1,67 @@
+package model;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Employee {
+    private String id;
+    private String name;
+    private String department;
+    private String type;
+    private double salary;
+    private double bonusPercent;
+
+    private List<PerformanceRecord> performanceList = new ArrayList<>();
+
+    public Employee(String id, String name, String department, String type, double salary, double bonusPercent) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+        this.type = type;
+        this.salary = salary;
+        this.bonusPercent = bonusPercent;
+    }
+
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public String getDepartment() { return department; }
+    public String getType() { return type; }
+    public double getSalary() { return salary; }
+    public double getBonusPercent() { return bonusPercent; }
+    public List<PerformanceRecord> getPerformanceList() { return performanceList; }
+
+    public void setId(String id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setDepartment(String department) { this.department = department; }
+    public void setType(String type) { this.type = type; }
+    public void setSalary(double salary) { this.salary = salary; }
+    public void setBonusPercent(double bonusPercent) { this.bonusPercent = bonusPercent; }
+
+    public void addPerformance(String month, double score, String remarks) {
+        for (PerformanceRecord pr : performanceList) {
+            if (pr.getMonth().equalsIgnoreCase(month)) {
+                pr.setScore(score);
+                pr.setRemarks(remarks);
+                return;
+            }
+        }
+        performanceList.add(new PerformanceRecord(month, score, remarks));
+    }
+
+    public String getPerformanceSummary() {
+        if (performanceList.isEmpty()) return "No performance records.";
+        StringBuilder sb = new StringBuilder();
+        for (PerformanceRecord pr : performanceList) {
+            sb.append(pr.toString()).append("\n");
+        }
+        return sb.toString();
+    }
+
+    public String toCSV() {
+        return id + "," + name + "," + department + "," + type + "," + salary + "," + bonusPercent;
+    }
+
+    @Override
+    public String toString() {
+        return id + " - " + name;
+    }
+}
